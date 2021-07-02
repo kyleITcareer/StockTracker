@@ -3,11 +3,8 @@ import React, {FC, useState} from 'react';
 
 export interface Data {
     purchase: number;
-
     quantity: number;
-
     sell: number;
-
     ticker: string;
 }
 
@@ -24,19 +21,22 @@ export const DataDialog: FC<DataDialogProps> = ({open, onClose, onSave}) => {
 
     function calculateProfitLoss() {
         let profitLossActual: number = 0;
-        if((data.purchase * data.quantity) > (data.sell * data.quantity)) {
-            profitLossActual =  (data.purchase * data.quantity) - (data.sell * data.quantity);
+        profitLossActual = 0;
+        if((data.purchase * data.quantity) < (data.sell * data.quantity)) {
+            profitLossActual = ((data.sell * data.quantity) - (data.purchase * data.quantity));
+            console.log(profitLossActual);
             return (
                 <div className='text-green-600'>
-                    Actual Profit/Loss: ${profitLossActual.toFixed(2)}
+                    Actual Profit/Loss: +${profitLossActual.toFixed(2)}
                 </div>
             )
         } if ((data.purchase * data.quantity) == (data.sell * data.quantity)) {
             return (
-                <div>Actual Profit/Loss: -${profitLossActual.toFixed(2)}</div>
+                <div>Actual Profit/Loss: ${profitLossActual.toFixed(2)}</div>
             )
-        }else {
-            profitLossActual = -((data.sell * data.quantity) - (data.purchase * data.quantity));
+        } else {
+            profitLossActual = ((data.purchase * data.quantity) - (data.sell * data.quantity));
+            console.log(profitLossActual);
             return (
                 <div className='text-red-600'>
                     Actual Profit/Loss: -${profitLossActual.toFixed(2)}
@@ -52,7 +52,7 @@ export const DataDialog: FC<DataDialogProps> = ({open, onClose, onSave}) => {
                   e.preventDefault();
                   onSave(data);
                   onClose();
-              }
+                }
               }>
             <DialogTitle>Add Some Data</DialogTitle>
             <DialogContent >
@@ -61,7 +61,7 @@ export const DataDialog: FC<DataDialogProps> = ({open, onClose, onSave}) => {
                            variant="outlined"
                            size="small"
                            value={data.ticker}
-                           onChange={e => setData({...data, ticker: e.target.value})}
+                           onChange={e => setData({...data, ticker: e.target.value.toUpperCase()})}
                 />
                 <TextField className="mb-4 space-x-1"
                            label="Purchase Price"
