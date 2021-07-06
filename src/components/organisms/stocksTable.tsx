@@ -7,6 +7,32 @@ export interface TableProps {
 }
 
 export const StocksTable: FC<TableProps> = ({tableData}) => {
+
+    function calculateProfitLoss(data: Data) {
+        let profitLossActual: number = 0;
+        profitLossActual = 0;
+        if((data.purchase * data.quantity) < (data.sell * data.quantity)) {
+            profitLossActual = ((data.sell * data.quantity) - (data.purchase * data.quantity));
+            console.log(profitLossActual);
+            return (
+                <div className='text-green-600'>
+                    +${profitLossActual.toFixed(2)}
+                </div>
+            )
+        } if ((data.purchase * data.quantity) == (data.sell * data.quantity)) {
+            return (
+                <div>${profitLossActual.toFixed(2)}</div>
+            )
+        } else {
+            profitLossActual = ((data.purchase * data.quantity) - (data.sell * data.quantity));
+            console.log(profitLossActual);
+            return (
+                <div className='text-red-600'>
+                     -${profitLossActual.toFixed(2)}
+                </div>
+            )
+        }
+    }
   
     return (
       <TableContainer component={Paper}>
@@ -27,7 +53,7 @@ export const StocksTable: FC<TableProps> = ({tableData}) => {
                 <TableCell align="center">{dataItem.purchase}</TableCell>
                 <TableCell align="center">{dataItem.quantity}</TableCell>
                 <TableCell align="center">{dataItem.sell}</TableCell>
-                <TableCell align="center"> add the profit loss calc </TableCell>
+                <TableCell align="center"> {calculateProfitLoss(dataItem)} </TableCell>
               </TableRow>
             ))}
           </TableBody>

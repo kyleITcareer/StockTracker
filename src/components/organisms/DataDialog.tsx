@@ -19,6 +19,7 @@ export interface DataDialogProps {
 export const DataDialog: FC<DataDialogProps> = ({open, onClose, onSave}) => {
     const [data, setData] = useState<Data>({ticker: '', purchase: 0, sell: 10, quantity: 1});
 
+    
     function calculateProfitLoss() {
         let profitLossActual: number = 0;
         profitLossActual = 0;
